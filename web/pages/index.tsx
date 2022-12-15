@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Chat from "../components/Chat";
 import Search from "../components/Search";
 import Sidebar from "../components/Sidebar";
 import MessagesContainer from "../containers/Messages";
@@ -20,14 +21,14 @@ export function Index(props: any) {
     localStorage.setItem("username", value);
   }
 
-  useEffect(() => {
-    if (usernameRef)
-      usernameRef.current.value = localStorage.getItem("username") || "";
-  }, []);
+  // useEffect(() => {
+  //   if (usernameRef)
+  //     usernameRef.current.value = localStorage.getItem("username") || "";
+  // }, []);
 
   return (
     <div>
-      {!username && (
+      {/* {!username && (
         <div>
           <input placeholder="Username" ref={usernameRef} />
           <button onClick={handleSetUsername}>START</button>
@@ -38,8 +39,14 @@ export function Index(props: any) {
           <RoomsContainer />
           <MessagesContainer />
         </>
-      )}
-      <div className="flex flex-col bg-gray-100 overflow-y-auto"></div>
+      )} */}
+      <div className="flex flex-col bg-gray-100 overflow-y-auto">
+        <Search />
+        <div className="flex">
+          <Sidebar />
+          <Chat />
+        </div>
+      </div>
     </div>
   );
 }

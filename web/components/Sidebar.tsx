@@ -5,8 +5,13 @@ import {
   FolderIcon,
   HomeIcon,
   InboxIcon,
-  UsersIcon
+  UsersIcon,
+  ChevronDownIcon
 } from "@heroicons/react/24/outline";
+import { useCallback, useState } from "react";
+import Dropdown from "./Dropdown";
+import CreateChannelForm from "./forms/CreateChannelForm";
+import Modal from "./Modal";
 
 const navigation = [
   { name: "Dashboard", icon: HomeIcon, href: "#", current: true },
@@ -22,14 +27,26 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
+  const [open, setOpen] = useState(false);
+  const setOpenCallback = useCallback(() => setOpen(true), []);
   return (
     <div className="flex flex-col min-h-screen w-64">
       <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
-        <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+        <div className="flex-1 flex flex-col pt-5 pb-4">
           <nav
             className="mt-5 flex-1 px-2 bg-gray-800 space-y-1"
             aria-label="Sidebar"
           >
+            <span className="flex align-middle justify-between py-2">
+              <button className="text-white group flex items-center text-sm font-medium rounded-md">
+                <ChevronDownIcon className="h-6 w-6 mr-2" />
+                Channels
+              </button>
+              <Dropdown
+                menuItems={["Create a channel"]}
+                setOpen={setOpenCallback}
+              />
+            </span>
             {navigation.map((item) => (
               <a
                 key={item.name}
@@ -87,6 +104,15 @@ export default function Example() {
           </a>
         </div>
       </div>
+      <Modal
+        open={open}
+        setOpen={setOpen}
+        title={"Create a channel"}
+        description={
+          "Channels are where your team communicates. They’re best when organized around a topic — #marketing, for example."
+        }
+        formComponent={<CreateChannelForm setOpen={setOpen} />}
+      />
     </div>
   );
 }
