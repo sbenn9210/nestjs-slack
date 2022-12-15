@@ -11,6 +11,7 @@ import { nanoid } from 'nanoid';
 
 const EVENTS = {
   connection: 'connection',
+  disconnecting: 'disconnecting',
   CLIENT: {
     CREATE_ROOM: 'CREATE_ROOM',
     SEND_ROOM_MESSAGE: 'SEND_ROOM_MESSAGE',
@@ -36,6 +37,11 @@ export class EventsGateway implements OnModuleInit {
     this.server.on(EVENTS.connection, (socket) => {
       console.log(`User connected on ${socket.id}`);
     });
+  }
+
+  @SubscribeMessage(EVENTS.disconnecting)
+  onDisconnect(@ConnectedSocket() socket: Socket): any {
+    console.log(`User disconnected on ${socket.id}`);
   }
 
   @SubscribeMessage(EVENTS.CLIENT.CREATE_ROOM)
