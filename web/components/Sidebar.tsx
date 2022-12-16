@@ -9,6 +9,7 @@ import {
   ChevronDownIcon
 } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
+import { useSockets } from "../context/socket.context";
 import Dropdown from "./Dropdown";
 import CreateChannelForm from "./forms/CreateChannelForm";
 import Modal from "./Modal";
@@ -29,6 +30,8 @@ function classNames(...classes: any) {
 export default function Example() {
   const [open, setOpen] = useState(false);
   const setOpenCallback = useCallback(() => setOpen(true), []);
+  const { rooms } = useSockets();
+  console.log(rooms);
   return (
     <div className="flex flex-col min-h-screen w-64">
       <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
@@ -47,7 +50,7 @@ export default function Example() {
                 setOpen={setOpenCallback}
               />
             </span>
-            {navigation.map((item) => (
+            {navigation.map((item: any) => (
               <a
                 key={item.name}
                 href={item.href}
@@ -58,7 +61,7 @@ export default function Example() {
                   "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                 )}
               >
-                <item.icon
+                {/* <item.icon
                   className={classNames(
                     item.current
                       ? "text-gray-300"
@@ -66,9 +69,9 @@ export default function Example() {
                     "mr-3 flex-shrink-0 h-6 w-6"
                   )}
                   aria-hidden="true"
-                />
+                /> */}
                 <span className="flex-1">{item.name}</span>
-                {item.count ? (
+                {/* {item.count ? (
                   <span
                     className={classNames(
                       item.current
@@ -79,7 +82,7 @@ export default function Example() {
                   >
                     {item.count}
                   </span>
-                ) : null}
+                ) : null} */}
               </a>
             ))}
           </nav>

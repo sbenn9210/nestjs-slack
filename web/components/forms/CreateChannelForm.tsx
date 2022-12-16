@@ -12,12 +12,28 @@ interface CreateChannelFormProps {
 function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
   const { socket, roomId, rooms } = useSockets();
 
-  function handleOnSubmit(values: any) {
+  async function handleOnSubmit(values: any) {
     let { roomName, description } = values;
 
     roomName = roomName.trim();
 
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, description });
+    const newChannel = {
+      name: roomName,
+      description: description,
+      public: false
+    };
+
+    const settings = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newChannel)
+    };
+
+    const res = await fetch("http://localhost:3333/channels", settings);
+    const channel = await res.json();
+    console.log(channel);
   }
 
   return (
