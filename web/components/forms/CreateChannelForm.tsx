@@ -2,24 +2,48 @@ import { Formik, Form } from "formik";
 import React from "react";
 import TextInput from "../TextInput";
 import * as Yup from "yup";
+import { useSockets } from "../../context/socket.context";
+import EVENTS from "../../config/events";
 
 interface CreateChannelFormProps {
   setOpen: Function;
 }
 
 function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
-  function handleOnSubmit(values: any) {
-    console.log(values);
+  const { socket, roomId, rooms } = useSockets();
+
+  async function handleOnSubmit(values: any) {
+    let { roomName, description } = values;
+
+    roomName = roomName.trim();
+
+    const newChannel = {
+      name: roomName,
+      description: description,
+      public: false
+    };
+
+    const settings = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newChannel)
+    };
+
+    const res = await fetch("http://localhost:3333/channels", settings);
+    const channel = await res.json();
+    console.log(channel);
   }
 
   return (
     <Formik
       initialValues={{
-        name: "",
+        roomName: "",
         description: ""
       }}
       validationSchema={Yup.object().shape({
-        name: Yup.string()
+        roomName: Yup.string()
           .required()
           .matches(
             /^[a-zA-Z0-9@]+$/,
@@ -31,7 +55,7 @@ function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
       {({ isValid, dirty }) => (
         <Form className="my-8">
           <TextInput
-            name="name"
+            name="roomName"
             type="text"
             label="Name"
             placeholder="e.g. plan-budget"
