@@ -1,9 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Chat from "../components/Chat";
 import Search from "../components/Search";
 import Sidebar from "../components/Sidebar";
-import MessagesContainer from "../containers/Messages";
-import RoomsContainer from "../containers/Rooms";
+
 import { useSockets } from "../context/socket.context";
 
 export function Index(props: any) {

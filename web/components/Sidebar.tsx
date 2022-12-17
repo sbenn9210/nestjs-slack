@@ -8,8 +8,8 @@ import {
   UsersIcon,
   ChevronDownIcon
 } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { useSockets } from "../context/socket.context";
 import Dropdown from "./Dropdown";
 import CreateChannelForm from "./forms/CreateChannelForm";
 import Modal from "./Modal";
@@ -27,11 +27,18 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Sidebar(props: any) {
   const [open, setOpen] = useState(false);
   const setOpenCallback = useCallback(() => setOpen(true), []);
-  const { rooms } = useSockets();
-  console.log(rooms);
+
+  async function getChannels() {
+    const channelsRequest = await fetch("http://localhost:3333/channels");
+    const channels = await channelsRequest.json();
+    return channels;
+  }
+
+  const { data } = useQuery({ queryKey: ["channels"], queryFn: getChannels });
+
   return (
     <div className="flex flex-col min-h-screen w-64">
       <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
@@ -50,9 +57,9 @@ export default function Example() {
                 setOpen={setOpenCallback}
               />
             </span>
-            {navigation.map((item: any) => (
+            {data?.map((item: any) => (
               <a
-                key={item.name}
+                key={item.id}
                 href={item.href}
                 className={classNames(
                   item.current

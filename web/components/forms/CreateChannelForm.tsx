@@ -4,6 +4,7 @@ import TextInput from "../TextInput";
 import * as Yup from "yup";
 import { useSockets } from "../../context/socket.context";
 import EVENTS from "../../config/events";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface CreateChannelFormProps {
   setOpen: Function;
@@ -12,7 +13,7 @@ interface CreateChannelFormProps {
 function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
   const { socket, roomId, rooms } = useSockets();
 
-  async function handleOnSubmit(values: any) {
+  async function createChannel(values: any) {
     let { roomName, description } = values;
 
     roomName = roomName.trim();
@@ -33,9 +34,24 @@ function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
 
     const res = await fetch("http://localhost:3333/channels", settings);
     const channel = await res.json();
-    console.log(channel);
+
+    return channel;
   }
 
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: createChannel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["channels"]
+      });
+    }
+  });
+
+  function handleOnSubmit(values: any) {
+    mutate(values);
+  }
   return (
     <Formik
       initialValues={{

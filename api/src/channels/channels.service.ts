@@ -12,7 +12,13 @@ export class ChannelsService {
   }
 
   findAll() {
-    return this.prisma.channel.findMany();
+    return this.prisma.channel.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
+    });
   }
 
   findOne(id: number) {
