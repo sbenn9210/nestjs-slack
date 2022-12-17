@@ -9,16 +9,16 @@ export function Index(props: any) {
   const { socket, username, setUsername } = useSockets();
   const usernameRef = useRef({});
 
-  function handleSetUsername() {
-    const value = usernameRef?.current?.value;
-    if (!value) {
-      return;
-    }
+  // function handleSetUsername() {
+  //   const value = usernameRef?.current?.value;
+  //   if (!value) {
+  //     return;
+  //   }
 
-    setUsername(value);
+  //   setUsername(value);
 
-    localStorage.setItem("username", value);
-  }
+  //   localStorage.setItem("username", value);
+  // }
 
   // useEffect(() => {
   //   if (usernameRef)
