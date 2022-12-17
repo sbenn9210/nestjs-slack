@@ -31,7 +31,7 @@ const SocketContext = createContext<Context>({
 function SocketsProvider(props: any) {
   const [username, setUsername] = useState("");
   const [roomId, setRoomId] = useState("");
-  const [rooms, setRooms] = useState({});
+
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
@@ -39,10 +39,6 @@ function SocketsProvider(props: any) {
       document.title = "Chat app";
     };
   }, []);
-
-  socket.on(EVENTS.SERVER.ROOMS, (value) => {
-    setRooms(value);
-  });
 
   socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
     setRoomId(value);
@@ -68,7 +64,6 @@ function SocketsProvider(props: any) {
         setUsername,
         messages,
         setMessages,
-        rooms,
         roomId
       }}
       {...props}
