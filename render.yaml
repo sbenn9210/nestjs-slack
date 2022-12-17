@@ -8,6 +8,6 @@ services:
     plan: free
     env: node
     rootDir: api
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
+    buildCommand: cd api && npm install && npm run build
+    startCommand: cd api && npm run start
     healthCheckPath: /
