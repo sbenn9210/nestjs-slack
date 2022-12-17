@@ -1,0 +1,16 @@
+databases:
+  - name: slack-database
+    databaseName: slack
+    user: shawn
+  - name: private database
+    databaseName: private
+
+services:
+  - type: web
+    name: slack-backend-service
+    env: node
+    rootDir: api
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        sync: false
