@@ -10,6 +10,8 @@ services:
     name: slack-backend-service
     env: node
     rootDir: api
+    buildCommand: npm run build
+    startCommand: npm run start
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
