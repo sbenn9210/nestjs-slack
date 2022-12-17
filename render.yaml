@@ -2,9 +2,6 @@ databases:
   - name: slack-database
     databaseName: slack
     user: shawn
-  - name: private database
-    databaseName: private
-    ipAllowList: [] # only allow internal connections
 
 services:
   - type: web
