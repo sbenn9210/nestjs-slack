@@ -6,7 +6,6 @@ databases:
     databaseName: private
 
 services:
-  # A Docker web service
   - type: web
     name: slack-backend-service
     env: node
