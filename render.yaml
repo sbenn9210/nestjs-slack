@@ -2,15 +2,13 @@ databases:
   - name: slack-database
     databaseName: slack
     user: shawn
-  - name: private database
-    databaseName: private
-    ipAllowList: [] # only allow internal connections
 
 services:
   - type: web
     name: slack-backend-service
     env: node
     rootDir: api
+    buildCommand: npm run build
     startCommand: npm run start
     healthCheckPath: /
     envVars:
