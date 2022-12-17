@@ -2,15 +2,14 @@ databases:
   - name: slack-database
     databaseName: slack
     user: shawn
-
-services:
-  - type: web
-    name: slack-backend-service
-    env: node
-    rootDir: api
-    buildCommand: npm run build
-    startCommand: npm run start
-    healthCheckPath: /
-    envVars:
-      - key: DATABASE_URL
-        sync: false
+# services:
+#   - type: web
+#     name: slack-backend-service
+#     env: node
+#     rootDir: api
+#     buildCommand: npm run build
+#     startCommand: npm run start
+#     healthCheckPath: /
+#     envVars:
+#       - key: DATABASE_URL
+#         sync: false
