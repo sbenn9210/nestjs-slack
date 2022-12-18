@@ -27,7 +27,7 @@ services:
           name: slack-database
           property: connectionString
       - key: FRONTEND_URL
-        value: https://slack-nextjs-service.onrender.com/
+        value: https://slack-nextjs-service.onrender.com
     healthCheckPath: /healthz
 
 databases:
