@@ -1,7 +1,3 @@
-databases:
-  - name: slack-database
-    databaseName: slack
-    user: shawn
 services:
   - type: web
     name: slack-backend-service
@@ -10,4 +6,15 @@ services:
     rootDir: api
     buildCommand: npm install && npm run build
     startCommand: npm run start:prod
+    envVars:
+      - key: NODE_VERSION
+        value: 14
+      - key: DATABASE_URL
+        fromDatabase:
+          name: slack-database
+          property: connectionString
     healthCheckPath: /
+
+databases:
+  - name: slack-database
+    databaseName: slack
