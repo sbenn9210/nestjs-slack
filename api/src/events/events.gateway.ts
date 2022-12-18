@@ -26,7 +26,7 @@ const EVENTS = {
 
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL,
   },
 })
 export class EventsGateway implements OnModuleInit {
