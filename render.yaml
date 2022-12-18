@@ -1,5 +1,15 @@
 services:
   - type: web
+    name: slack-nextjs-service
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  - type: web
     name: slack-backend-service
     plan: free
     env: node
