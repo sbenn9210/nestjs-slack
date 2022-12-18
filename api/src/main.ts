@@ -18,9 +18,7 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
 
-  app.enableCors({
-    origin: 'http://localhost:3000',
-  });
-  await app.listen(3333, '0.0.0.0');
+  app.enableCors();
+  await app.listen(3333);
 }
 bootstrap();
