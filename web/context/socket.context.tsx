@@ -12,7 +12,8 @@ interface Context {
   rooms: object;
 }
 
-const SOCKET_URL = process.env.SOCKET_URL || "http://localhost:3333";
+const SOCKET_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3333";
 
 const socket = io(SOCKET_URL);
 

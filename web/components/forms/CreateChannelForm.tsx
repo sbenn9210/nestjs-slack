@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useSockets } from "../../context/socket.context";
 import EVENTS from "../../config/events";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createChannel } from "../../utils/fetchUtils";
 
 interface CreateChannelFormProps {
   setOpen: Function;
@@ -13,35 +14,10 @@ interface CreateChannelFormProps {
 function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
   const { socket, roomId, rooms } = useSockets();
 
-  async function createChannel(values: any) {
-    let { roomName, description } = values;
-
-    roomName = roomName.trim();
-
-    const newChannel = {
-      name: roomName,
-      description: description,
-      public: false
-    };
-
-    const settings = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newChannel)
-    };
-
-    const res = await fetch("http://localhost:3333/channels", settings);
-    const channel = await res.json();
-
-    return channel;
-  }
-
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: createChannel,
+    mutationFn: (values) => createChannel(values, "channels"),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["channels"]

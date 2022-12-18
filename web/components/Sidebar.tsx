@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
+import { getChannels } from "../utils/fetchUtils";
 import Dropdown from "./Dropdown";
 import CreateChannelForm from "./forms/CreateChannelForm";
 import Modal from "./Modal";
@@ -31,13 +32,10 @@ export default function Sidebar(props: any) {
   const [open, setOpen] = useState(false);
   const setOpenCallback = useCallback(() => setOpen(true), []);
 
-  async function getChannels() {
-    const channelsRequest = await fetch("http://localhost:3333/channels");
-    const channels = await channelsRequest.json();
-    return channels;
-  }
-
-  const { data } = useQuery({ queryKey: ["channels"], queryFn: getChannels });
+  const { data } = useQuery({
+    queryKey: ["channels"],
+    queryFn: () => getChannels("channels")
+  });
 
   return (
     <div className="flex flex-col min-h-screen w-64">
