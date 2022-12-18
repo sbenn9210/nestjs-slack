@@ -2,6 +2,7 @@ services:
   - type: web
     name: slack-nextjs-service
     env: node
+    rootDir: web
     plan: free
     buildCommand: npm install && npm run build
     startCommand: npm run start
