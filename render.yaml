@@ -13,7 +13,7 @@ services:
         fromDatabase:
           name: slack-database
           property: connectionString
-    healthCheckPath: /
+    healthCheckPath: /healthz
 
 databases:
   - name: slack-database
