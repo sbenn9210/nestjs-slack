@@ -18,11 +18,21 @@ export class ChannelsService {
         name: true,
         description: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} channel`;
+  findOne(id: string) {
+    return this.prisma.channel.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        Message: true,
+      },
+    });
   }
 
   update(id: number, updateChannelDto: UpdateChannelDto) {
