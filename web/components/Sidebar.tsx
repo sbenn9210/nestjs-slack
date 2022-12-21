@@ -1,41 +1,32 @@
 /* This example requires Tailwind CSS v2.0+ */
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  ChevronDownIcon
-} from "@heroicons/react/24/outline";
+import { HashtagIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { getChannels } from "../utils/fetchUtils";
+import { useGlobalContext } from "../context/global.context";
+import { fetchItems } from "../utils/fetchUtils";
 import Dropdown from "./Dropdown";
 import CreateChannelForm from "./forms/CreateChannelForm";
 import Modal from "./Modal";
-
-const navigation = [
-  { name: "Dashboard", icon: HomeIcon, href: "#", current: true },
-  { name: "Team", icon: UsersIcon, href: "#", count: 3, current: false },
-  { name: "Projects", icon: FolderIcon, href: "#", count: 4, current: false },
-  { name: "Calendar", icon: CalendarIcon, href: "#", current: false },
-  { name: "Documents", icon: InboxIcon, href: "#", current: false },
-  { name: "Reports", icon: ChartBarIcon, href: "#", count: 12, current: false }
-];
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Sidebar(props: any) {
+export default function Sidebar() {
   const [open, setOpen] = useState(false);
+  const { setChannelId } = useGlobalContext();
+
   const setOpenCallback = useCallback(() => setOpen(true), []);
 
-  const { data } = useQuery({
+  const { data: channels } = useQuery({
     queryKey: ["channels"],
-    queryFn: () => getChannels("channels")
+    queryFn: () => fetchItems("channels")
   });
+
+  const handleClick = (channelId: string) => {
+    setChannelId(channelId);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-64">
@@ -55,10 +46,10 @@ export default function Sidebar(props: any) {
                 setOpen={setOpenCallback}
               />
             </span>
-            {data?.map((item: any) => (
-              <a
+            {channels?.map((item: any) => (
+              <button
+                onClick={() => handleClick(item.id)}
                 key={item.id}
-                href={item.href}
                 className={classNames(
                   item.current
                     ? "bg-gray-900 text-white"
@@ -66,7 +57,7 @@ export default function Sidebar(props: any) {
                   "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                 )}
               >
-                {/* <item.icon
+                <HashtagIcon
                   className={classNames(
                     item.current
                       ? "text-gray-300"
@@ -74,7 +65,7 @@ export default function Sidebar(props: any) {
                     "mr-3 flex-shrink-0 h-6 w-6"
                   )}
                   aria-hidden="true"
-                /> */}
+                />
                 <span className="flex-1">{item.name}</span>
                 {/* {item.count ? (
                   <span
@@ -88,7 +79,7 @@ export default function Sidebar(props: any) {
                     {item.count}
                   </span>
                 ) : null} */}
-              </a>
+              </button>
             ))}
           </nav>
         </div>

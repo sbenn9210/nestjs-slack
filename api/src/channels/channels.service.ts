@@ -7,22 +7,32 @@ import { UpdateChannelDto } from './dto/update-channel.dto';
 export class ChannelsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createChannelDto: CreateChannelDto) {
-    return this.prisma.channel.create({ data: createChannelDto });
+  async create(createChannelDto: CreateChannelDto) {
+    return await this.prisma.channel.create({ data: createChannelDto });
   }
 
-  findAll() {
-    return this.prisma.channel.findMany({
+  async findAll() {
+    return await this.prisma.channel.findMany({
       select: {
         id: true,
         name: true,
         description: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} channel`;
+  async findOne(id: string) {
+    return await this.prisma.channel.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        Message: true,
+      },
+    });
   }
 
   update(id: number, updateChannelDto: UpdateChannelDto) {
