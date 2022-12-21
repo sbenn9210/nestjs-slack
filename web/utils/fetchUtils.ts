@@ -1,9 +1,6 @@
-export async function getChannels(path: string) {
-  const channelsRequest = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/${path}`
-  );
-  const channels = await channelsRequest.json();
-  return channels;
+export async function fetchItems(path: string) {
+  const request = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${path}`);
+  return await request.json();
 }
 
 export async function createChannel(values: any, path: string) {

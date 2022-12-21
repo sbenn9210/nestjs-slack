@@ -1,9 +1,12 @@
 import React from "react";
+import Messages from "./Messages";
 
 function Chat() {
   return (
     <div className="p-4 flex flex-col h-screen w-full">
-      <div className="flex-grow"></div>
+      <div className="flex-grow">
+        <Messages />
+      </div>
       <div className="flex gap-2 py-8 border-solid border-2 border-sky-400 rounded-md">
         <input
           type="text"
