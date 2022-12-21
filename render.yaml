@@ -17,7 +17,7 @@ services:
     plan: free
     env: node
     rootDir: api
-    buildCommand: npm install && npm run build && npx prisma db push
+    buildCommand: npm install &&  npx prisma generate && npm run build && npx prisma db push
     startCommand: npm run start:prod
     envVars:
       - key: NODE_VERSION
