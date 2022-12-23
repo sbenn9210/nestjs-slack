@@ -30,13 +30,13 @@ export class ChannelsController {
     return this.channelsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChannelDto: UpdateChannelDto) {
-    return this.channelsService.update(+id, updateChannelDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateChannelDto: UpdateChannelDto) {
+  //   return this.channelsService.update(+id, updateChannelDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.channelsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.channelsService.remove(+id);
+  // }
 }
