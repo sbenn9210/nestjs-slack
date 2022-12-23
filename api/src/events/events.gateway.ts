@@ -8,6 +8,8 @@ import {
 } from '@nestjs/websockets';
 import { OnModuleInit } from '@nestjs/common';
 import { nanoid } from 'nanoid';
+import { CreateMessageDto } from 'src/messages/dto/create-message.dto';
+import { MessagesRepository } from 'src/messages/messages.repository';
 
 const EVENTS = {
   connection: 'connection',
@@ -31,6 +33,8 @@ const EVENTS = {
   },
 })
 export class EventsGateway implements OnModuleInit {
+  constructor(private messageRepository: MessagesRepository) {}
+
   @WebSocketServer()
   server: Server;
 
@@ -77,18 +81,17 @@ export class EventsGateway implements OnModuleInit {
   }
 
   @SubscribeMessage(EVENTS.CLIENT.SEND_ROOM_MESSAGE)
-  onSendRoomMessage(
-    @MessageBody() data: any,
+  async onSendRoomMessage(
+    @MessageBody() message: CreateMessageDto,
     @ConnectedSocket() socket: Socket,
-  ): any {
-    const date = new Date();
-    console.log(data);
+  ): Promise<any> {
+    console.log(message);
 
-    socket.to(data.roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
-      message: data.message,
-      username: data.username,
-      time: `${date.getHours()}:${date.getMinutes()}`,
-    });
+    const newMessage = await this.messageRepository.create(message);
+
+    socket
+      .to(newMessage.channelId)
+      .emit(EVENTS.SERVER.ROOM_MESSAGE, newMessage);
   }
 
   @SubscribeMessage(EVENTS.CLIENT.JOIN_ROOM)

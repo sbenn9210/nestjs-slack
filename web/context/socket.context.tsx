@@ -48,12 +48,12 @@ function SocketsProvider(props: any) {
   });
 
   useEffect(() => {
-    socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
+    socket.on(EVENTS.SERVER.ROOM_MESSAGE, (message) => {
       if (!document.hasFocus()) {
         document.title = "New message...";
       }
-
-      setMessages((messages) => [...messages, { message, username, time }]);
+      console.log(message);
+      // setMessages((messages) => [...messages, { message, username, time }]);
     });
   }, []);
 
