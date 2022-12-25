@@ -12,8 +12,6 @@ interface CreateChannelFormProps {
 }
 
 function CreateChannelForm({ setOpen }: CreateChannelFormProps) {
-  const { socket, roomId, rooms } = useSockets();
-
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({

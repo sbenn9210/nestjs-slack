@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import EVENTS from "../config/events";
@@ -34,6 +35,7 @@ function SocketsProvider(props: any) {
   const [roomId, setRoomId] = useState("");
 
   const [messages, setMessages] = useState<any[]>([]);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     window.onfocus = function () {
@@ -53,6 +55,7 @@ function SocketsProvider(props: any) {
         document.title = "New message...";
       }
       console.log(message);
+      queryClient.invalidateQueries(["messages", message.id]);
       // setMessages((messages) => [...messages, { message, username, time }]);
     });
   }, []);
